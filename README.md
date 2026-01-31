@@ -1,71 +1,37 @@
-# Spatial Epidemiology: Sub-national Hotspot Detection of Malaria in Tanzania
+# 📍 Spatial Epidemiology & Hotspot Detection: Malaria in Tanzania
 
-## Project Overview
-This repository contains a full biostatistical pipeline for investigating the spatial heterogeneity of *Plasmodium falciparum* prevalence in Tanzania. By integrating raw survey data with administrative boundaries, I performed a **Local Indicators of Spatial Association (LISA)** analysis to identify statistically significant disease hotspots.
-
-## Key Biostatistical Skills Demonstrated
-* **Geospatial ETL:** Automated data retrieval using the `malariaAtlas` API and spatial cleaning in `sf`.
-* **Spatial Topology:** Construction of a **Queen Contiguity** spatial weights matrix to model regional connectivity.
-* **Inferential Statistics:** Application of **Global Moran’s I** and **Local Moran’s I (LISA)** for cluster detection.
-* **Data Visualization:** Multi-layered mapping using `ggplot2` and `viridis` color scales.
+## 📋 Executive Summary
+This project identifies statistically significant geographic clusters of malaria in Tanzania using **Local Indicators of Spatial Association (LISA)**. By analyzing over 4,400 survey points, this study provides a data-driven framework for targeted public health interventions.
 
 ---
 
-## Final Analysis Result
-![Malaria Hotspot Map](outputs/malaria_hotspot_map.png)
-*Figure 1: Statistically significant malaria hotspots identified in Southern Tanzania (p <= 0.05).*
+## 🔬 Core Analysis & Visualizations
+
+### 1. Spatial Topology & Connectivity
+Before statistical inference, I constructed a **Queen Contiguity** weights matrix to define regional neighbors. This network (visualized below) is the foundation for calculating spatial autocorrelation.
+
+![Spatial Connectivity Network](plots/Rplot01.png)
+
+
+
+### 2. Sub-national Hotspot Identification
+The final analysis utilizes **Local Moran’s I** to distinguish between random noise and statistically significant clusters ($p \le 0.05$). 
+
+![Final Hotspot Map](plots/malaria_hotspot_map.png)
+
+**Key Finding:** A significant **High-High (Hotspot)** cluster was identified in the Southern regions, indicating a geographic area where high prevalence is spatially persistent.
 
 ---
 
-## Full Reproducible Code
+## 🛠️ Technical Workflow
+1. **Data Sourcing:** Automated API retrieval via `malariaAtlas`.
+2. **Preprocessing:** Coordinate auditing and spatial joins using the `sf` package.
+3. **Statistical Modeling:** Global and Local Moran's I tests conducted in `spdep`.
+4. **Visualization:** Multi-scale mapping with `ggplot2`.
 
+---
+
+## 🚀 How to Reproduce
 ```R
-# 1. LOAD LIBRARIES
-library(malariaAtlas)
-library(sf)
-library(tidyverse)
-library(spdep)
-library(ggthemes)
-
-# 2. DATA ACQUISITION & CLEANING
-tz_data <- getPR(ISO = "TZA", species = "Pf")
-tz_shp <- getShp(ISO = "TZA", admin_level = "admin1")
-
-# Clean data: Remove missing coordinates
-tz_data_clean <- tz_data %>% filter(!is.na(longitude) & !is.na(latitude))
-tz_sf_points <- st_as_sf(tz_data_clean, coords = c("longitude", "latitude"), crs = 4326)
-
-# 3. SPATIAL AGGREGATION
-points_with_districts <- st_join(tz_sf_points, st_as_sf(tz_shp))
-summary_table <- points_with_districts %>%
-  st_drop_geometry() %>%
-  group_by(name_1) %>%
-  summarize(avg_prevalence = mean(pr, na.rm = TRUE),
-            sample_size = sum(examined, na.rm = TRUE))
-
-final_spatial_data <- left_join(tz_shp, summary_table, by = "name_1") %>%
-  filter(!is.na(avg_prevalence))
-
-# 4. STATISTICAL ANALYSIS (LISA)
-nb <- poly2nb(final_spatial_data, queen = TRUE) # Queen Contiguity
-lw <- nb2listw(nb, style = "W", zero.policy = TRUE)
-
-lisa_results <- localmoran(final_spatial_data$avg_prevalence, lw, zero.policy = TRUE)
-final_spatial_data$p_val <- lisa_results[,5]
-
-# Scale data for Cluster Categorization
-final_spatial_data$scaled_prev <- scale(final_spatial_data$avg_prevalence)
-final_spatial_data$scaled_lag <- scale(lag.listw(lw, final_spatial_data$avg_prevalence))
-
-final_spatial_data$cluster <- "Not Significant"
-final_spatial_data$cluster[final_spatial_data$p_val <= 0.05 & final_spatial_data$scaled_prev > 0 & final_spatial_data$scaled_lag > 0] <- "High (Hotspot)"
-final_spatial_data$cluster[final_spatial_data$p_val <= 0.05 & final_spatial_data$scaled_prev < 0 & final_spatial_data$scaled_lag < 0] <- "Low (Coldspot)"
-
-# 5. VISUALIZATION
-ggplot() +
-  geom_sf(data = final_spatial_data, aes(fill = cluster), color = "white", alpha = 0.8) +
-  geom_sf(data = tz_sf_points, aes(color = pr, size = examined), alpha = 0.5) +
-  scale_fill_manual(values = c("High (Hotspot)" = "#d73027", "Low (Coldspot)" = "#4575b4", "Not Significant" = "grey90")) +
-  scale_color_viridis_c(option = "magma") +
-  theme_minimal() +
-  labs(title = "Malaria Hotspot Detection: Tanzania")
+# Clone the repo and run the main script
+source("scripts/malaria_spatial_analysis.R")
