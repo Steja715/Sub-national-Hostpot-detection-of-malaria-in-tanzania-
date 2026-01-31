@@ -12,9 +12,14 @@ Before statistical inference, I constructed a **Queen Contiguity** weights matri
 
 ![Spatial Connectivity Network](Rplot01.png)
 
+### 2. Hotspot Identification
+This plot shows the raw point - prevalence. 
 
+![Final Hotspot Map](malaria_hotspot_map.png)
 
-### 2. Sub-national Hotspot Identification
+**Key Finding:** Yellow and Orange dot indicates the high prevalence which can be observer in the southern region of Tanzania.
+
+### 3. Cluster Identification
 The final analysis utilizes **Local Moran’s I** to distinguish between random noise and statistically significant clusters ($p \le 0.05$). 
 
 ![Final Hotspot Map](malaria_analysis_tanzania.png)
