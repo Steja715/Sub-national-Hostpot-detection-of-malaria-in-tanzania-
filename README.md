@@ -10,7 +10,7 @@ This project identifies statistically significant geographic clusters of malaria
 ### 1. Spatial Topology & Connectivity
 Before statistical inference, I constructed a **Queen Contiguity** weights matrix to define regional neighbors. This network (visualized below) is the foundation for calculating spatial autocorrelation.
 
-![Spatial Connectivity Network](plots/Rplot01.png)
+![Spatial Connectivity Network](Rplot01.png)
 
 
 
