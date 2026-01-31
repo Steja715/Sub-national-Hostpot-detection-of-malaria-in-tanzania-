@@ -1,7 +1,7 @@
 # 📍 Spatial Epidemiology & Hotspot Detection: Malaria in Tanzania
 
-## 📋 Executive Summary
-This project identifies statistically significant geographic clusters of malaria in Tanzania using **Local Indicators of Spatial Association (LISA)**. By analyzing over 4,400 survey points, this study provides a data-driven framework for targeted public health interventions.
+## 📋 Summary
+This project identifies statistically significant geographic clusters of malaria in Tanzania. By analyzing over 4,400 survey points, this study provides a data-driven framework for targeted public health interventions.
 
 ---
 
