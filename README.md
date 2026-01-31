@@ -29,14 +29,11 @@ The final analysis utilizes **Local Moran’s I** to distinguish between random 
 ---
 
 ## 🛠️ Technical Workflow
-1. **Data Sourcing:** Automated API retrieval via `malariaAtlas`.
+1. **Data Sourcing:** API retrieval via `malariaAtlas`.
 2. **Preprocessing:** Coordinate auditing and spatial joins using the `sf` package.
 3. **Statistical Modeling:** Global and Local Moran's I tests conducted in `spdep`.
 4. **Visualization:** Multi-scale mapping with `ggplot2`.
 
 ---
 
-## 🚀 How to Reproduce
-```R
-# Clone the repo and run the main script
-source("scripts/malaria_spatial_analysis.R")
+
