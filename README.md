@@ -17,7 +17,7 @@ Before statistical inference, I constructed a **Queen Contiguity** weights matri
 ### 2. Sub-national Hotspot Identification
 The final analysis utilizes **Local Moran’s I** to distinguish between random noise and statistically significant clusters ($p \le 0.05$). 
 
-![Final Hotspot Map](malaria_hotspot_map.png)
+![Final Hotspot Map](malaria_analysis_tanzania.png)
 
 **Key Finding:** A significant **High-High (Hotspot)** cluster was identified in the Southern regions, indicating a geographic area where high prevalence is spatially persistent.
 
