@@ -17,7 +17,7 @@ This plot shows the raw point - prevalence.
 
 ![Final Hotspot Map](malaria_hotspot_map.png)
 
-**Key Finding:** Yellow and Orange dot indicates the high prevalence which can be observer in the southern region of Tanzania.
+**Key Finding:** Yellow and Orange dot indicates the high prevalence which can be observed in the southern region of Tanzania.
 
 ### 3. Cluster Identification
 The final analysis utilizes **Local Moran’s I** to distinguish between random noise and statistically significant clusters ($p \le 0.05$). 
